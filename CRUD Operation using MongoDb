@@ -1,0 +1,315 @@
+➢ Study CRUD Operation using MongoDb
+*******************************************************************
+sd23@csd23-vostro3710:~$ sudo mongo
+[sudo] password for csd23:
+
+
+> use db_A1
+switched to db db_A1
+> db.stud.insert([{rno:1, name:'Ashiti'}, {rno:2, name:'savita'}, {rno:3, name:'sagar'},
+{rno:4, name:'Reena'},{rno:5, name:'Jivan'}])
+BulkWriteResult({
+"writeErrors" : [ ],
+"writeConcernErrors" : [ ],
+"nInserted" : 5,
+"nUpserted" : 0,
+"nMatched" : 0,
+"nModified" : 0,
+"nRemoved" : 0,
+"upserted" : [ ]
+})
+> db.stud.find()
+{ "_id" : ObjectId("652e05151ab0d072f7624265"), "rno" : 1, "name" : "Ashiti" }
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 2, "name" : "savita" }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 3, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+
+> db.stud.find().pretty()
+{
+"_id" : ObjectId("652e05151ab0d072f7624265"),
+"rno" : 1,
+"name" : "Ashiti"
+}
+{
+"_id" : ObjectId("652e05151ab0d072f7624266"),
+"rno" : 2,
+"name" : "savita"
+}
+{
+"_id" : ObjectId("652e05151ab0d072f7624267"),
+"rno" : 3,
+"name" : "sagar"
+}
+{
+"_id" : ObjectId("652e05151ab0d072f7624268"),
+"rno" : 4,
+"name" : "Reena"
+}
+{
+"_id" : ObjectId("652e05151ab0d072f7624269"),
+"rno" : 5,
+"name" : "Jivan"
+}
+> db.stud.find()
+{ "_id" : ObjectId("652e05151ab0d072f7624265"), "rno" : 1, "name" : "Ashiti" }
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 2, "name" : "savita" }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 3, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+> db.stud.find({},{_id: 0})
+{ "rno" : 1, "name" : "Ashiti" }
+{ "rno" : 2, "name" : "savita" }
+{ "rno" : 3, "name" : "sagar" }
+{ "rno" : 4, "name" : "Reena" }
+{ "rno" : 5, "name" : "Jivan" }
+> db.stud.find({},{_id:0, rno:0})
+{ "name" : "Ashiti" }
+{ "name" : "savita" }
+{ "name" : "sagar" }
+
+{ "name" : "Reena" }
+{ "name" : "Jivan" }
+>
+>
+> db.stud.find({rno:2},{_id:0,rno:0})
+{ "name" : "savita" }
+>
+>
+> db.stud.find({rno:2})
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 2, "name" : "savita" }
+> db.stud.find({rno:{$gt:2}})
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 3, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+>
+>
+> db.stud.find({rno:{$gt:2}},{_id:0})
+{ "rno" : 3, "name" : "sagar" }
+{ "rno" : 4, "name" : "Reena" }
+{ "rno" : 5, "name" : "Jivan" }
+>
+>
+> db.stud.find()
+{ "_id" : ObjectId("652e05151ab0d072f7624265"), "rno" : 1, "name" : "Ashiti" }
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 2, "name" : "savita" }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 3, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+>
+>
+> db.stud.find().sort({rno:1})
+{ "_id" : ObjectId("652e05151ab0d072f7624265"), "rno" : 1, "name" : "Ashiti" }
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 2, "name" : "savita" }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 3, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+>
+> db.stud.find().sort({rno:-1})
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 3, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 2, "name" : "savita" }
+{ "_id" : ObjectId("652e05151ab0d072f7624265"), "rno" : 1, "name" : "Ashiti" }
+>
+>
+
+> db.stud.find().sort({name:1})
+{ "_id" : ObjectId("652e05151ab0d072f7624265"), "rno" : 1, "name" : "Ashiti" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 3, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 2, "name" : "savita" }
+>
+>
+> db.stud.find().sort({name:-1})
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 2, "name" : "savita" }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 3, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+{ "_id" : ObjectId("652e05151ab0d072f7624265"), "rno" : 1, "name" : "Ashiti" }
+>
+>
+> db.stud.find().limit(2)
+{ "_id" : ObjectId("652e05151ab0d072f7624265"), "rno" : 1, "name" : "Ashiti" }
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 2, "name" : "savita" }
+>
+> db.stud.find().limit(4)
+{ "_id" : ObjectId("652e05151ab0d072f7624265"), "rno" : 1, "name" : "Ashiti" }
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 2, "name" : "savita" }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 3, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+>
+>
+> db.stud.find().skip(2)
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 3, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+>
+> db.stud.find().skip(4)
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+>
+>
+> db.stud.find().count()
+5
+> db.stud.find({rno:2}).count()
+1
+>
+> db.stud.find({rno:}).count()
+2023-10-17T00:08:46.747-0400 E QUERY [thread1] SyntaxError: expected expression,
+got '}' @(shell):1:18
+> db.stud.find({rno:{$gt:2}}).count()
+
+3
+>
+> db.stud.findOne()
+{
+"_id" : ObjectId("652e05151ab0d072f7624265"),
+"rno" : 1,
+"name" : "Ashiti"
+}
+>
+>
+> db.stud.remove({rno:1})
+WriteResult({ "nRemoved" : 1 })
+>
+> db.stud.find()
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 2, "name" : "savita" }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 3, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+>
+>
+>
+> db.stud.update({rno:2},{rno:20})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+>
+> db.stud.find()
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 20 }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 3, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+>
+>
+> db.stud.update({rno:3},{$set:{rno:35}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+>
+> db.stud.find()
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 20 }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 35, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+>
+>
+> db.stud.update({rno:3},{$set:{rno:45}})
+WriteResult({ "nMatched" : 0, "nUpserted" : 0, "nModified" : 0 })
+>
+> db.stud.find()
+
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 20 }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 35, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+>
+>
+> db.stud.update({rno:35},{$set:{rno:45}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+>
+> db.stud.find()
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 20 }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 45, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+>
+>
+> db.stud.update({rno:20},{$set:{rno:45}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+>
+> db.stud.update({rno:45},{$set:{rno:55}}, {multi:true})
+WriteResult({ "nMatched" : 2, "nUpserted" : 0, "nModified" : 2 })
+>
+> db.stud.find()
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 55 }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 55, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+>
+>
+> db.stud.update({rno:45},{$set:{rno:55}}, {multi:false})
+WriteResult({ "nMatched" : 0, "nUpserted" : 0, "nModified" : 0 })
+>
+> db.stud.find()
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 55 }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 55, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+>
+> db.stud.update({rno:65},{$set:{rno:55}}, {multi:true})
+WriteResult({ "nMatched" : 0, "nUpserted" : 0, "nModified" : 0 })
+>
+> db.stud.find()
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 55 }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 55, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+
+>
+>
+>
+>
+>
+> db.stud.insert({rno:12, name:"Ashish", dob:new Date()})
+WriteResult({ "nInserted" : 1 })
+>
+> db.stud.find()
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 55 }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 55, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+{ "_id" : ObjectId("652e0d511ab0d072f762426a"), "rno" : 12, "name" : "Ashish", "dob" :
+ISODate("2023-10-17T04:28:01.402Z") }
+>
+> db.stud.insert({rno:11, name:"Ashish", dob:new Date('2020-11-02')})
+WriteResult({ "nInserted" : 1 })
+>
+> db.stud.find()
+{ "_id" : ObjectId("652e05151ab0d072f7624266"), "rno" : 55 }
+{ "_id" : ObjectId("652e05151ab0d072f7624267"), "rno" : 55, "name" : "sagar" }
+{ "_id" : ObjectId("652e05151ab0d072f7624268"), "rno" : 4, "name" : "Reena" }
+{ "_id" : ObjectId("652e05151ab0d072f7624269"), "rno" : 5, "name" : "Jivan" }
+{ "_id" : ObjectId("652e0d511ab0d072f762426a"), "rno" : 12, "name" : "Ashish", "dob" :
+ISODate("2023-10-17T04:28:01.402Z") }
+{ "_id" : ObjectId("652e0d921ab0d072f762426b"), "rno" : 11, "name" : "Ashish", "dob" :
+ISODate("2020-11-02T00:00:00Z") }
+>
+********************************************************************
+
+Homework
+
+Assignment on Mongo Db Collections
+
+Create Institute Database and Create Student Collection
+1. RollNo
+2. Name
+3. Age
+4.Branch
+5. Address:{City, State}
+
+6. Hobbies(Array)
+Perform Following Operations
+1. Create database institute
+2. Create collection students
+3. Insert 10 documents with above mentioned structure.
+4. Display all students information
+5.Display students information whose age is greater than 15.
+6. Display student information sorted on name fiels.
+7. Update student branch Computer of RollNo 3.
+8. Remove documents with roll no 1.
+9. Display students information whose name starts with A.
+10. Display total number of documents available in collection.
+11. Display only first 5 documents.
+12. Display all documents instead of 3.
+13. Display the name of students who leave in Pune City.
+14. Display the list of different cities from where students are coming.
+15. Display the list of different cities with number of students from belonging to that city.
+16. Display only name of all students.
