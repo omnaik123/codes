@@ -1,0 +1,167 @@
+Example No1
+PL/SQL Block for Addition of 2 numbers
+Procedure:
+Mysql> Delimiter //
+create function add1(a int, b int) returns int
+DETERMINISTIC
+begin
+declare c int;
+set c= a + b;
+return c;
+end;
+//
+////////////////////////////////////////////////////////////////////////////////////////
+Example No2
+PL/SQL Block to find the maximum of two numbers
+Procedure:
+Mysql> Delimiter //
+create function Max5(n1 int, n2 int) Returns varchar(20)
+Deterministic
+BEGIN
+DECLARE Maximum1 varchar(20);
+If (n1>n2) then
+Set Maximum1 = 'Max number is n1';
+else
+Set Maximum1 = 'Max number is n2';
+end if;
+return Maximum1;
+end;
+
+*************************OUTPUT On MY SQL SERVER***********************
+a@a-Lenovo-G500:~/Desktop$ sudo mysql
+Welcome to the MySQL monitor. Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.33-0ubuntu0.20.04.2 (Ubuntu)
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------------+
+| Database |
++--------------------------+
+| Practice_query |
+
+| SECSD |
+| Study_Constraints |
+| Study_Default_Constraint |
+| Study_Primary_key |
+| TECSD |
+| information_schema |
+| mysql |
+| performance_schema |
+| study_joins |
+| sys |
++--------------------------+
+11 rows in set (0.04 sec)
+mysql> create function add1(a int, b int) returns int
+-> DETERMINISTIC
+-> begin
+-> declare c int;
+-> set c= a + b;
+-> return c;
+-> end;
+-> //
+Query OK, 0 rows affected (0.17 sec)
+mysql> select add1(10,20)//
++-------------+
+| add1(10,20) |
++-------------+
+| 30 |
++-------------+
+1 row in set (0.00 sec)
+
+Example No 2
+mysql> delimiter //
+mysql> create function Max5(n1 int, n2 int) Returns varchar(20)
+-> BEGIN
+-> DECLARE Maximum1 varchar(20);
+-> If (n1>n2) then
+-> Set Maximum1 = 'Max number is n1';
+-> else
+-> Set Maximum1 = 'Max number is n2';
+-> end if;
+-> return Maximum1;
+-> end;
+-> //
+ERROR 1418 (HY000): This function has none of DETERMINISTIC, NO SQL, or READS SQL DATA
+in its declaration and binary logging is enabled (you *might* want to use the less safe
+log_bin_trust_function_creators variable)
+mysql> create function Max5(n1 int, n2 int) Returns varchar(20)
+-> Deterministic
+-> BEGIN
+-> DECLARE Maximum1 varchar(20);
+-> If (n1>n2) then
+-> Set Maximum1 = 'Max number is n1';
+-> else
+-> Set Maximum1 = 'Max number is n2';
+
+-> end if;
+-> return Maximum1;
+-> end;
+-> //
+Query OK, 0 rows affected (0.16 sec)
+mysql> select Max5(20,10)//
++------------------+
+| Max5(20,10) |
++------------------+
+| Max number is n1 |
++------------------+
+1 row in set (0.00 sec)
+*******************************************************************************
+Example No 3
+Write a PL/SQL block for Accepting Name of a stud having Roll_No=4
+
+mysql> use TECSD;
+Database changed
+mysql> create table stud(rno int(3), name varchar(20), marks int(3));
+Query OK, 0 rows affected, 2 warnings (0.50 sec)
+mysql> desc stud;
++-------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| rno | int | YES | | NULL | |
+| name | varchar(20) | YES | | NULL | |
+| marks | int | YES | | NULL | |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+mysql> insert into stud values(1,'Amit',88),(2,'Shreya',70),(3,'Reena',56),(4,'Jivan',34);
+Query OK, 4 rows affected (0.09 sec)
+Records: 4 Duplicates: 0 Warnings: 0
+mysql> select * from stud;
++------+--------+-------+
+| rno | name | marks |
++------+--------+-------+
+| 1 | Amit | 88 |
+| 2 | Shreya | 70 |
+| 3 | Reena | 56 |
+| 4 | Jivan | 34 |
++------+--------+-------+
+4 rows in set (0.00 sec)
+mysql> delimiter //
+mysql> create function rname(rno1 int) returns varchar(20)
+-> Deterministic
+-> begin
+-> declare sname varchar(20);
+-> select name into sname from stud where rno=rno1;
+
+-> return sname;
+-> end;
+-> //
+Query OK, 0 rows affected (0.14 sec)
+mysql> select rname(1)//
++----------+
+| rname(1) |
++----------+
+| Amit |
++----------+
+1 row in set (0.00 sec)
+mysql> select rname(4)//
++----------+
+| rname(4) |
++----------+
+| Jivan |
++----------+
+1 row in set (0.00 sec)
