@@ -1,0 +1,127 @@
+mysql> use TECSD;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+Database changed
+Create table as given below . I have use readymade table here: /////////
+mysql> show tables;
++-----------------+
+| Tables_in_TECSD |
++-----------------+
+| stud |
++-----------------+
+1 row in set (0.00 sec)
+mysql> select * from stud;
++------+--------+-------+
+| rno | name | marks |
++------+--------+-------+
+| 1 | Amit | 88 |
+| 2 | Shreya | 70 |
+| 3 | Reena | 56 |
+| 4 | Jivan | 34 |
++------+--------+-------+
+4 rows in set (0.00 sec)
+/////// Example of IN parameter////////
+mysql> create procedure Allstud3(IN Sname varchar(20))
+-> begin
+-> select * from stud where name=SName;
+-> end;
+-> //
+Query OK, 0 rows affected (0.15 sec)
+mysql> call Allstud3('Amit')//
++------+------+-------+
+| rno | name | marks |
++------+------+-------+
+| 1 | Amit | 88 |
++------+------+-------+
+1 row in set (0.00 sec)
+Query OK, 0 rows affected (0.00 sec)
+mysql> call Allstud3('Reena')//
++------+-------+-------+
+| rno | name | marks |
+
++------+-------+-------+
+| 3 | Reena | 56 |
++------+-------+-------+
+1 row in set (0.00 sec)
+Query OK, 0 rows affected (0.00 sec)
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Update table using Procedure call
+mysql> create procedure Uname(IN rno1 int(3), SName varchar(10))
+-> begin
+-> select * from stud;
+-> update stud set name=SName where rno=rno1;
+-> select * from stud;
+-> end;
+-> //
+Query OK, 0 rows affected, 1 warning (0.13 sec)
+mysql> call Uname(4,'Shiva')//
++------+--------+-------+
+| rno | name | marks |
++------+--------+-------+
+| 1 | Amit | 88 |
+| 2 | Shreya | 70 |
+| 3 | Reena | 56 |
+| 4 | Jivan | 34 |
++------+--------+-------+
+4 rows in set (0.00 sec)
++------+--------+-------+
+| rno | name | marks |
++------+--------+-------+
+| 1 | Amit | 88 |
+| 2 | Shreya | 70 |
+| 3 | Reena | 56 |
+| 4 | Shiva | 34 |
++------+--------+-------+
+4 rows in set (0.10 sec)
+Query OK, 0 rows affected (0.10 sec)
+//////////// /////////////////////////////////////////////////////////////////////////////////////////////////////////
+Insert Values into Table using Procedure Call:
+mysql> create procedure Uname2(IN rno1 int(3), SName varchar(10), Marks1 int(3))
+-> begin
+-> select * from stud;
+-> Insert into stud values(rno1, SName, Marks1);
+-> select * from stud;
+-> end;
+-> //
+Query OK, 0 rows affected, 2 warnings (0.14 sec)
+mysql> call Uname2(5,'Anandi',88)//
++------+--------+-------+
+| rno | name | marks |
++------+--------+-------+
+
+| 1 | Amit | 88 |
+| 2 | Shreya | 70 |
+| 3 | Reena | 56 |
+| 4 | Shiva | 34 |
++------+--------+-------+
+4 rows in set (0.00 sec)
++------+--------+-------+
+| rno | name | marks |
++------+--------+-------+
+| 1 | Amit | 88 |
+| 2 | Shreya | 70 |
+| 3 | Reena | 56 |
+| 4 | Shiva | 34 |
+| 5 | Anandi | 88 |
++------+--------+-------+
+5 rows in set (0.08 sec)
+Query OK, 0 rows affected (0.08 sec)
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Example of IN and OUT Parameters together. IN use for taking values from user and OUT use to
+provide a output to user. The below eample take rno as an input and gives name as an output:
+mysql> create procedure Allstud5(IN Rno1 int, OUT SName varchar(20))
+-> begin
+-> select Name into SName from stud where Rno=Rno1;
+-> end;
+-> //
+Query OK, 0 rows affected (0.19 sec)
+mysql> call Allstud5(5, @SName)//
+Query OK, 1 row affected (0.00 sec)
+mysql> select @SName//
++--------+
+| @SName |
++--------+
+| Anandi |
++--------+
+1 row in set (0.00 sec)
+mysql>
