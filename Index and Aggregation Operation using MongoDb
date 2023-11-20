@@ -1,0 +1,383 @@
+Study Index and Aggregation Operation using MongoDb
+*******************************************************************
+1. STUDY INDEX
+
+csd23@csd23-vostro3710:~$ sudo mongo
+MongoDB shell version v3.6.8
+connecting to: mongodb://127.0.0.1:27017
+Implicit session: session { "id" : UUID("4dc6c0ad-b419-46b3-a109-21fda653e8ad") }
+MongoDB server version: 3.6.8
+Server has startup warnings: 
+2023-10-17T23:55:03.339-0400 I STORAGE  [initandlisten] 
+2023-10-17T23:55:03.339-0400 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+2023-10-17T23:55:03.339-0400 I STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
+2023-10-17T23:55:03.677-0400 I CONTROL  [initandlisten] 
+2023-10-17T23:55:03.677-0400 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2023-10-17T23:55:03.677-0400 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2023-10-17T23:55:03.677-0400 I CONTROL  [initandlisten] 
+//Create Database
+> use IndexAgree
+switched to db IndexAgree
+> 
+> db.cust.insert([
+... {cid:1,cname:'John'},
+... {cid:2,cname:'pooja'},
+... {cid:3,cname:'Anjali'},
+... {cid:4,cname:'Aniket'},
+... {cid:5,cname:'Rakesh'},
+... {cid:6,cname:'Akshay', Hobbies:["singing","Dancing","reading"]},
+... {cid:7,cname:'rishi',Address:[{Flat:1232, city:"Nagar", State:"MH"}], email_id: "rishi@gmail.com"}])
+BulkWriteResult({
+        "writeErrors" : [
+                {
+                        "index" : 0,
+                        "code" : 11000,
+                        "errmsg" : "E11000 duplicate key error collection: IndexAgree.cust index: cid_1 dup key: { : 1.0 }",
+                        "op" : {
+                                "_id" : ObjectId("652fb16b53565608f6a7ff83"),
+                                "cid" : 1,
+                                "cname" : "John"
+                        }
+                }
+        ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 0,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
+> db.cust.find()
+{ "_id" : ObjectId("652f59b493f1d9897d2cd18f"), "cid" : 1, "cname" : "John" }
+{ "_id" : ObjectId("652f59b493f1d9897d2cd190"), "cid" : 2, "cname" : "Anjali" }
+{ "_id" : ObjectId("652f59b493f1d9897d2cd191"), "cid" : 3, "cname" : "Pooja" }
+{ "_id" : ObjectId("652f59b493f1d9897d2cd192"), "cid" : 4, "cname" : "Aryan" }
+{ "_id" : ObjectId("652f59b493f1d9897d2cd193"), "cid" : 5, "cname" : "Aniket" }
+{ "_id" : ObjectId("652f59b493f1d9897d2cd194"), "cid" : 6, "cname" : "Rakesh" }
+{ "_id" : ObjectId("652f59b493f1d9897d2cd195"), "cid" : 7, "cname" : "Poonam" }
+> 
+> 
+
+// Create a index for cid[Acending (1), and Decending(-1)
+> 
+> db.cust.createIndex({cid:1})  // create index for cid field (1 means index in                      						asending order
+{
+        "ok" : 0,
+        "errmsg" : "Index with name: cid_1 already exists with different options",
+        "code" : 85,
+        "codeName" : "IndexOptionsConflict"
+}
+> db.cust.getIndexes()  // get index
+[
+        {
+                "v" : 2,
+                "key" : {
+                        "_id" : 1
+                },
+                "name" : "_id_",
+                "ns" : "IndexAgree.cust"
+        },
+        {
+                "v" : 2,
+                "unique" : true,
+                "key" : {
+                        "cid" : 1
+                },
+                "name" : "cid_1",
+                "ns" : "IndexAgree.cust"
+        },
+        {
+                "v" : 2,
+                "unique" : true,
+                "key" : {
+                        "cid" : -1
+                },
+                "name" : "cid_-1",
+                "ns" : "IndexAgree.cust"
+        }
+]
+> db.cust.createIndex({cid:-1,cname:1})   // create a compound index means index on  							more than one field
+{
+        "createdCollectionAutomatically" : false,
+        "numIndexesBefore" : 3,
+        "numIndexesAfter" : 4,
+        "ok" : 1
+}
+> db.cust.getIndexes()
+[
+        {
+                "v" : 2,     //indicate version
+                "key" : {
+                        "_id" : 1  //index created by mongo for this field
+                },
+                "name" : "_id_",
+                "ns" : "IndexAgree.cust"
+        },
+        {
+                "v" : 2,
+                "unique" : true,
+                "key" : {
+                        "cid" : 1
+                },
+                "name" : "cid_1",    // index created as cid_1 
+                "ns" : "IndexAgree.cust"
+        },
+        {
+                "v" : 2,
+                "unique" : true,
+                "key" : {
+                        "cid" : -1
+                },
+                "name" : "cid_-1",
+                "ns" : "IndexAgree.cust"
+        },
+        {
+                "v" : 2,
+                "key" : {
+                        "cid" : -1,
+                        "cname" : 1
+                },
+                "name" : "cid_-1_cname_1",
+                "ns" : "IndexAgree.cust"
+        }
+]
+> 
+> 
+> db.cust.dropIndex({cid:1})    // to drop any index
+{ "nIndexesWas" : 4, "ok" : 1 }
+> 
+> db.cust.getIndexes()
+[
+        {
+                "v" : 2,
+                "key" : {
+                        "_id" : 1
+                },
+                "name" : "_id_",
+                "ns" : "IndexAgree.cust"
+        },
+        {
+                "v" : 2,
+                "unique" : true,
+                "key" : {
+                        "cid" : -1
+                },
+                "name" : "cid_-1",
+                "ns" : "IndexAgree.cust"
+        },
+        {
+                "v" : 2,
+                "key" : {
+                        "cid" : -1,
+                        "cname" : 1
+                },
+                "name" : "cid_-1_cname_1",
+                "ns" : "IndexAgree.cust"
+        }
+]
+> db.cust.dropIndex({cid:-1,cname:1})   //  drop index for more than one fields.
+{ "nIndexesWas" : 3, "ok" : 1 }
+> 
+> db.cust.getIndexes()
+[
+        {
+                "v" : 2,
+                "key" : {
+                        "_id" : 1
+                },
+                "name" : "_id_",
+                "ns" : "IndexAgree.cust"
+        },
+        {
+                "v" : 2,
+                "unique" : true,
+                "key" : {
+                        "cid" : -1
+                },
+                "name" : "cid_-1",
+                "ns" : "IndexAgree.cust"
+        }
+]
+> 
+
+// UNIQUE INDEX
+
+> db.cust.createIndex({cid:1},{unique:true})     //Apply unique index on cid
+{
+        "createdCollectionAutomatically" : false,
+        "numIndexesBefore" : 2,
+        "numIndexesAfter" : 3,
+        "ok" : 1
+}
+> 
+> db.cust.insert({cid:1,cname:'Akshay'})   // entry get inserted but cid use is same so 							duplicate entry error will occur
+WriteResult({
+        "nInserted" : 0,
+        "writeError" : {
+                "code" : 11000,
+                "errmsg" : "E11000 duplicate key error collection: IndexAgree.cust index: cid_-1 dup key: { : 1.0 }"
+        }
+})
+> db.cust.insert({cid:10,cname:'Akshay'})   //insert another record with cid:10 then it 					will accept it bez unique index is applied on cid.
+WriteResult({ "nInserted" : 1 })
+> db.cust.getIndexes()
+[
+        {
+                "v" : 2,
+                "key" : {
+                        "_id" : 1
+                },
+                "name" : "_id_",
+                "ns" : "IndexAgree.cust"
+        },
+        {
+                "v" : 2,
+                "unique" : true,
+                "key" : {
+                        "cid" : -1
+                },
+                "name" : "cid_-1",
+                "ns" : "IndexAgree.cust"
+        },
+        {
+                "v" : 2,
+                "unique" : true,
+                "key" : {
+                        "cid" : 1
+                },
+                "name" : "cid_1",
+                "ns" : "IndexAgree.cust"
+        }
+]
+
+
+
+
+
+                                                            GROUP B
+                                                        Assignment No 2
+
+                                            
+ STUDY AGGREGATION
+********************************************************************************
+Aggregations operations process data records and return computed results.
+Aggregation operations group values from multiple documents together, and can perform a variety of operations on the grouped data.
+For aggregation in mongodb use aggregate() method.
+
+Syntax:
+                           >db.COLLECTION_NAME.aggregate(AGGREGATE_OPERATION)
+
+Aggregate() method
+
+$sum : Sums up the defined value from all documents in the collection.
+$avg : Calculates the average of all given values from all documents in the collection.
+$min:  Gets the minimum of the corresponding values from all documents in the collection.
+$max : Gets the maximum of the corresponding values from all documents in the collection.
+$first : Gets the first document from the source documents according to the grouping.
+$last : Gets the last document from the source documents according to the grouping.
+********************************************************************************
+
+a@a-Lenovo-G500:~$ sudo mongo
+[sudo] password for a: 
+MongoDB shell version v3.6.8
+connecting to: mongodb://127.0.0.1:27017
+Implicit session: session { "id" : UUID("8fb84f40-4270-4ab8-b3aa-7695ca0309d0") }
+MongoDB server version: 3.6.8
+Server has startup warnings: 
+2023-10-18T21:21:45.637+0530 I STORAGE  [initandlisten] 
+2023-10-18T21:21:45.637+0530 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+2023-10-18T21:21:45.637+0530 I STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
+2023-10-18T21:21:52.550+0530 I CONTROL  [initandlisten] 
+2023-10-18T21:21:52.550+0530 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2023-10-18T21:21:52.550+0530 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2023-10-18T21:21:52.550+0530 I CONTROL  [initandlisten] 
+> 
+> use study_Aggregation
+switched to db study_Aggregation
+> db.createCollection("product")
+{ "ok" : 1 }
+> show collections
+product
+> db.product.insert([
+... {item:"Paste",amount:40,customer:"Mike"},
+... {item:"Guitar",amount:200,customer:"Tom"},
+... {item:"Milk",amount:60,customer:"Mike"},
+... {item:"Pizza",amount:150,customer:"Kiran"},
+... {item:"Paste",amount:40,customer:"Kiran"},
+... {item:"Pizza",amount:150,customer:"Devika"},
+... {item:"Paste",amount:40,customer:"Mike"},
+... {item:"Paste",amount:40,customer:"Niraj"},
+... {item:"Guitar",amount:200,customer:"Reena"},
+... {item:"Milk",amount:60,customer:"Mike"},
+... {item:"Pizza",amount:150,customer:"Devika"},
+... {item:"Paste",amount:40,customer:"Devika"},
+... {item:"Pizza",amount:150,customer:"Kiran"},
+... {item:"Paste",amount:40,customer:"Reena"}])
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 14,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+> db.product.find()
+{ "_id" : ObjectId("6530032360b2df7e6fd79340"), "item" : "Paste", "amount" : 40, "customer" : "Mike" }
+{ "_id" : ObjectId("6530032360b2df7e6fd79341"), "item" : "Guitar", "amount" : 200, "customer" : "Tom" }
+{ "_id" : ObjectId("6530032360b2df7e6fd79342"), "item" : "Milk", "amount" : 60, "customer" : "Mike" }
+{ "_id" : ObjectId("6530032360b2df7e6fd79343"), "item" : "Pizza", "amount" : 150, "customer" : "Kiran" }
+{ "_id" : ObjectId("6530032360b2df7e6fd79344"), "item" : "Paste", "amount" : 40, "customer" : "Kiran" }
+{ "_id" : ObjectId("6530032360b2df7e6fd79345"), "item" : "Pizza", "amount" : 150, "customer" : "Devika" }
+{ "_id" : ObjectId("6530032360b2df7e6fd79346"), "item" : "Paste", "amount" : 40, "customer" : "Mike" }
+{ "_id" : ObjectId("6530032360b2df7e6fd79347"), "item" : "Paste", "amount" : 40, "customer" : "Niraj" }
+{ "_id" : ObjectId("6530032360b2df7e6fd79348"), "item" : "Guitar", "amount" : 200, "customer" : "Reena" }
+{ "_id" : ObjectId("6530032360b2df7e6fd79349"), "item" : "Milk", "amount" : 60, "customer" : "Mike" }
+{ "_id" : ObjectId("6530032360b2df7e6fd7934a"), "item" : "Pizza", "amount" : 150, "customer" : "Devika" }
+{ "_id" : ObjectId("6530032360b2df7e6fd7934b"), "item" : "Paste", "amount" : 40, "customer" : "Devika" }
+{ "_id" : ObjectId("6530032360b2df7e6fd7934c"), "item" : "Pizza", "amount" : 150, "customer" : "Kiran" }
+{ "_id" : ObjectId("6530032360b2df7e6fd7934d"), "item" : "Paste", "amount" : 40, "customer" : "Reena" }
+> 
+
+
+//Apply Querries
+To Find total amount of money spend by each customer.
+> db.product.aggregate([{$group:{_id:"$customer",total:{$sum:"$amount"}}}])
+{ "_id" : "Reena", "total" : 240 }
+{ "_id" : "Niraj", "total" : 40 }
+{ "_id" : "Kiran", "total" : 340 }
+{ "_id" : "Devika", "total" : 340 }
+{ "_id" : "Tom", "total" : 200 }
+{ "_id" : "Mike", "total" : 200 }
+> 
+//To find how many item the customer have purchase
+
+> db.product.aggregate([{$group:{_id:"$customer", total:{$sum:1}}}])
+{ "_id" : "Reena", "total" : 2 }
+{ "_id" : "Niraj", "total" : 1 }
+{ "_id" : "Kiran", "total" : 3 }
+{ "_id" : "Devika", "total" : 3 }
+{ "_id" : "Tom", "total" : 1 }
+{ "_id" : "Mike", "total" : 4 }
+> 
+>
+// To find Average
+> db.product.aggregate([{$group:{_id:"$customer", total:{$avg:"$amount"}}}])
+{ "_id" : "Reena", "total" : 120 }
+{ "_id" : "Niraj", "total" : 40 }
+{ "_id" : "Kiran", "total" : 113.33333333333333 }
+{ "_id" : "Devika", "total" : 113.33333333333333 }
+{ "_id" : "Tom", "total" : 200 }
+{ "_id" : "Mike", "total" : 50 }
+> 
+
+// To find how many is the selling of each item
+> db.product.aggregate([{$group:{_id:"$item", total:{$sum:"$amount"}}}])
+{ "_id" : "Pizza", "total" : 600 }
+{ "_id" : "Guitar", "total" : 400 }
+{ "_id" : "Milk", "total" : 120 }
+{ "_id" : "Paste", "total" : 240 }
+> 
+******************
