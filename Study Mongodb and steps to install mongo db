@@ -1,0 +1,211 @@
+➢ Study Mongodb and steps to install mongo db
+*******************************************************************
+csd23@csd23-vostro3710:~$ sudo apt-get update
+Hit:1 http://archive.ubuntu.com/ubuntu focal InRelease
+Get:2 http://security.ubuntu.com/ubuntu focal-security InRelease [114 kB]
+Get:3 http://archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
+Get:4 http://security.ubuntu.com/ubuntu focal-security/main i386 Packages [660 kB]
+Get:5 http://archive.ubuntu.com/ubuntu focal-backports InRelease [108 kB]
+Get:6 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 Packages [2,888 kB]
+Get:7 http://security.ubuntu.com/ubuntu focal-security/main amd64 Packages [2,500 kB]
+Get:8 http://security.ubuntu.com/ubuntu focal-security/main amd64 DEP-11 Metadata [59.8 kB]
+Get:9 http://security.ubuntu.com/ubuntu focal-security/main amd64 c-n-f Metadata [13.2
+kB]
+Get:10 http://security.ubuntu.com/ubuntu focal-security/universe i386 Packages [617 kB]
+Get:11 http://archive.ubuntu.com/ubuntu focal-updates/main i386 Packages [893 kB]
+Get:12 http://security.ubuntu.com/ubuntu focal-security/universe amd64 Packages [891 kB]
+Get:13 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 DEP-11 Metadata [275 kB]
+Get:14 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 c-n-f Metadata [17.1 kB]
+Get:15 http://archive.ubuntu.com/ubuntu focal-updates/universe i386 Packages [750 kB]
+Get:16 http://security.ubuntu.com/ubuntu focal-security/universe amd64 DEP-11 Metadata [96.6
+kB]
+Get:17 http://security.ubuntu.com/ubuntu focal-security/universe amd64 c-n-f Metadata [19.2
+kB]
+Get:18 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 Packages [1,123 kB]
+Get:19 http://security.ubuntu.com/ubuntu focal-security/multiverse amd64 DEP-11 Metadata [940
+B]
+Get:20 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 DEP-11 Metadata [414
+kB]
+Get:21 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 c-n-f Metadata [25.6 kB]
+Get:22 http://archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 DEP-11 Metadata [940
+B]
+Get:23 http://archive.ubuntu.com/ubuntu focal-backports/main amd64 DEP-11 Metadata [7,980 B]
+Get:24 http://archive.ubuntu.com/ubuntu focal-backports/universe amd64 DEP-11 Metadata [30.5
+kB]
+Fetched 11.6 MB in 4s (2,695 kB/s)
+Reading package lists... Done
+csd23@csd23-vostro3710:~$ sudo apt-get install mongodb
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following additional packages will be installed:
+libboost-program-options1.71.0 libgoogle-perftools4 libpcrecpp0v5 libtcmalloc-minimal4
+mongo-tools mongodb-clients mongodb-server mongodb-server-core
+The following NEW packages will be installed:
+libboost-program-options1.71.0 libgoogle-perftools4 libpcrecpp0v5 libtcmalloc-minimal4
+mongo-tools mongodb mongodb-clients mongodb-server mongodb-server-core
+0 upgraded, 9 newly installed, 0 to remove and 88 not upgraded.
+Need to get 56.2 MB of archives.
+
+After this operation, 229 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://archive.ubuntu.com/ubuntu focal/main amd64 libboost-program-options1.71.0 amd64
+1.71.0-6ubuntu6 [342 kB]
+Get:2 http://archive.ubuntu.com/ubuntu focal/main amd64 libtcmalloc-minimal4 amd64 2.7-
+1ubuntu2 [93.0 kB]
+Get:3 http://archive.ubuntu.com/ubuntu focal/main amd64 libgoogle-perftools4 amd64 2.7-
+1ubuntu2 [195 kB]
+Get:4 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libpcrecpp0v5 amd64 2:8.39-
+12ubuntu0.1 [15.5 kB]
+Get:5 http://archive.ubuntu.com/ubuntu focal/universe amd64 mongo-tools amd64 3.6.3-0ubuntu1
+[12.3 MB]
+Get:6 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 mongodb-clients amd64
+1:3.6.9+really3.6.8+90~g8e540c0b6d-0ubuntu5.3 [21.6 MB]
+Get:7 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 mongodb-server-core
+amd64 1:3.6.9+really3.6.8+90~g8e540c0b6d-0ubuntu5.3 [21.6 MB]
+Get:8 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 mongodb-server all
+1:3.6.9+really3.6.8+90~g8e540c0b6d-0ubuntu5.3 [12.5 kB]
+Get:9 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 mongodb amd64
+1:3.6.9+really3.6.8+90~g8e540c0b6d-0ubuntu5.3 [9,640 B]
+Fetched 56.2 MB in 12s (4,688
+kB/s)
+Selecting previously unselected package libboost-program-options1.71.0:amd64.
+(Reading database ... 272563 files and directories currently installed.)
+Preparing to unpack .../0-libboost-program-options1.71.0_1.71.0-6ubuntu6_amd64.deb ...
+Unpacking libboost-program-options1.71.0:amd64 (1.71.0-6ubuntu6) ...
+Selecting previously unselected package libtcmalloc-minimal4:amd64.
+Preparing to unpack .../1-libtcmalloc-minimal4_2.7-1ubuntu2_amd64.deb ...
+Unpacking libtcmalloc-minimal4:amd64 (2.7-1ubuntu2) ...
+Selecting previously unselected package libgoogle-perftools4:amd64.
+Preparing to unpack .../2-libgoogle-perftools4_2.7-1ubuntu2_amd64.deb ...
+Unpacking libgoogle-perftools4:amd64 (2.7-1ubuntu2) ...
+Selecting previously unselected package libpcrecpp0v5:amd64.
+Preparing to unpack .../3-libpcrecpp0v5_2%3a8.39-12ubuntu0.1_amd64.deb ...
+Unpacking libpcrecpp0v5:amd64 (2:8.39-12ubuntu0.1) ...
+Selecting previously unselected package mongo-tools.
+Preparing to unpack .../4-mongo-tools_3.6.3-0ubuntu1_amd64.deb ...
+Unpacking mongo-tools (3.6.3-0ubuntu1) ...
+Selecting previously unselected package mongodb-clients.
+
+Preparing to unpack .../5-mongodb-clients_1%3a3.6.9+really3.6.8+90~g8e540c0b6d-
+0ubuntu5.3_amd64.deb ...
+
+Unpacking mongodb-clients (1:3.6.9+really3.6.8+90~g8e540c0b6d-0ubuntu5.3) ...
+Selecting previously unselected package mongodb-server-core.
+
+Preparing to unpack .../6-mongodb-server-core_1%3a3.6.9+really3.6.8+90~g8e540c0b6d-
+0ubuntu5.3_amd64.deb ...
+
+Unpacking mongodb-server-core (1:3.6.9+really3.6.8+90~g8e540c0b6d-0ubuntu5.3) ...
+Selecting previously unselected package mongodb-server.
+
+Preparing to unpack .../7-mongodb-server_1%3a3.6.9+really3.6.8+90~g8e540c0b6d-
+0ubuntu5.3_all.deb ...
+
+Unpacking mongodb-server (1:3.6.9+really3.6.8+90~g8e540c0b6d-0ubuntu5.3) ...
+
+Selecting previously unselected package mongodb.
+
+Preparing to unpack .../8-mongodb_1%3a3.6.9+really3.6.8+90~g8e540c0b6d-
+0ubuntu5.3_amd64.deb ...
+
+Unpacking mongodb (1:3.6.9+really3.6.8+90~g8e540c0b6d-0ubuntu5.3) ...
+Setting up libpcrecpp0v5:amd64 (2:8.39-12ubuntu0.1) ...
+Setting up libtcmalloc-minimal4:amd64 (2.7-1ubuntu2) ...
+Setting up mongo-tools (3.6.3-0ubuntu1) ...
+Setting up libgoogle-perftools4:amd64 (2.7-1ubuntu2) ...
+Setting up libboost-program-options1.71.0:amd64 (1.71.0-6ubuntu6) ...
+Setting up mongodb-clients (1:3.6.9+really3.6.8+90~g8e540c0b6d-0ubuntu5.3) ...
+Setting up mongodb-server-core (1:3.6.9+really3.6.8+90~g8e540c0b6d-0ubuntu5.3) ...
+Setting up mongodb-server (1:3.6.9+really3.6.8+90~g8e540c0b6d-0ubuntu5.3) ...
+Created symlink /etc/systemd/system/multi-user.target.wants/mongodb.service →
+/lib/systemd/system/mongodb.service.
+Setting up mongodb (1:3.6.9+really3.6.8+90~g8e540c0b6d-0ubuntu5.3) ...
+Processing triggers for man-db (2.9.1-1) ...
+Processing triggers for libc-bin (2.31-0ubuntu9.9) ...
+Processing triggers for systemd (245.4-4ubuntu3.20) ...
+csd23@csd23-vostro3710:~$ sudo apt-get update
+Hit:1 http://security.ubuntu.com/ubuntu focal-security InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu focal InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu focal-updates InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu focal-backports InRelease
+Reading package lists... Done
+csd23@csd23-vostro3710:~$ sudo service mongodb start
+csd23@csd23-vostro3710:~$ mongo
+MongoDB shell version v3.6.8
+connecting to: mongodb://127.0.0.1:27017
+Implicit session: session { "id" : UUID("a9545b23-541d-44ed-b029-491ae9771cca") }
+MongoDB server version: 3.6.8
+Welcome to the MongoDB shell.
+For interactive help, type "help".
+For more comprehensive documentation, see
+http://docs.mongodb.org/
+Questions? Try the support group
+http://groups.google.com/group/mongodb-user
+Server has startup warnings:
+2023-10-13T00:05:46.097-0400 I STORAGE [initandlisten]
+2023-10-13T00:05:46.097-0400 I STORAGE [initandlisten] ** WARNING: Using the XFS
+filesystem is strongly recommended with the WiredTiger storage engine
+2023-10-13T00:05:46.097-0400 I STORAGE [initandlisten] ** See
+http://dochub.mongodb.org/core/prodnotes-filesystem
+2023-10-13T00:05:46.226-0400 I CONTROL [initandlisten]
+2023-10-13T00:05:46.226-0400 I CONTROL [initandlisten] ** WARNING: Access control is not
+enabled for the database.
+2023-10-13T00:05:46.226-0400 I CONTROL [initandlisten] ** Read and write access to
+data and configuration is unrestricted.
+2023-10-13T00:05:46.226-0400 I CONTROL [initandlisten]
+//Now here Mongodb get installed and after typing mongo you are enterd into mongo server
+
+// To show database
+> show dbs
+admin 0.000GB
+config 0.000GB
+local 0.000GB
+> db
+test
+> use db1
+switched to db db1
+> db
+db1
+> show collections
+> db.stud.insert({rno:1, Name:"Prachi" })
+WriteResult({ "nInserted" : 1 })
+> show collections
+stud
+> db.stud.find()
+{ "_id" : ObjectId("6528c40edc1fbbc97fc32b0a"), "rno" : 1, "Name" : "Prachi" }
+> db.stud.insert({rno:2, Name: "Bhavana", Emaolid: "bhavana@gmail.com"})
+WriteResult({ "nInserted" : 1 })
+> db.stud.insert(rno:3, Name: "Rupesh", Designation: "Professor"})
+2023-10-13T00:20:53.755-0400 E QUERY [thread1] SyntaxError: missing ) after argument list
+@(shell):1:18
+> db.stud.find()
+{ "_id" : ObjectId("6528c40edc1fbbc97fc32b0a"), "rno" : 1, "Name" : "Prachi" }
+{ "_id" : ObjectId("6528c56adc1fbbc97fc32b0b"), "rno" : 2, "Name" : "Bhavana", "Emaolid" :
+"bhavana@gmail.com" }
+> db.stud.insert({rno:3, Name: "Rupesh", Designation: "Professor"})
+WriteResult({ "nInserted" : 1 })
+> db.stud.find()
+{ "_id" : ObjectId("6528c40edc1fbbc97fc32b0a"), "rno" : 1, "Name" : "Prachi" }
+{ "_id" : ObjectId("6528c56adc1fbbc97fc32b0b"), "rno" : 2, "Name" : "Bhavana", "Emaolid" :
+"bhavana@gmail.com" }
+{ "_id" : ObjectId("6528c5eddc1fbbc97fc32b0c"), "rno" : 3, "Name" : "Rupesh", "Designation" :
+"Professor" }
+> db.stud.find()
+{ "_id" : ObjectId("6528c40edc1fbbc97fc32b0a"), "rno" : 1, "Name" : "Prachi" }
+{ "_id" : ObjectId("6528c56adc1fbbc97fc32b0b"), "rno" : 2, "Name" : "Bhavana", "Emaolid" :
+"bhavana@gmail.com" }
+{ "_id" : ObjectId("6528c5eddc1fbbc97fc32b0c"), "rno" : 3, "Name" : "Rupesh", "Designation" :
+"Professor" }
+> db.stud.insert({_id:10, Name:"Reena",Rno:15 }) //_id mention by user also taken
+by mongo
+
+WriteResult({ "nInserted" : 1 })
+> db.stud.find()
+{ "_id" : ObjectId("6528c40edc1fbbc97fc32b0a"), "rno" : 1, "Name" : "Prachi" }
+{ "_id" : ObjectId("6528c56adc1fbbc97fc32b0b"), "rno" : 2, "Name" : "Bhavana", "Emaolid" :
+"bhavana@gmail.com" }
+{ "_id" : ObjectId("6528c5eddc1fbbc97fc32b0c"), "rno" : 3, "Name" : "Rupesh", "Designation" :
+"Professor" }
+
+{ "_id" : 10, "Name" : "Reena", "Rno" : 15 }
