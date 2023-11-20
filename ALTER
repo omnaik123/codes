@@ -1,0 +1,212 @@
+
+mysql> use TECSD;
+Database changed
+mysql> create table stud(Rno int(3), Name varchar (30), DOB date, SGPA float(3,1));
+Query OK, 0 rows affected, 2 warnings (1.07 sec)
+mysql> create table stud(Rno int(3), Name varchar (30), DOB date, SGPA float(3,1);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your
+MySQL server version for the right syntax to use near '' at line 1
+mysql> create table stud(Rno int(3), Name varchar (30), DOB date, SGPA float(3,1));
+ERROR 1050 (42S01): Table 'stud' already exists
+mysql> show tables;
++-----------------+
+| Tables_in_TECSD |
++-----------------+
+| stud |
++-----------------+
+1 row in set (0.00 sec)
+mysql> desc stud;
++-------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| Rno | int | YES | | NULL | |
+| Name | varchar(30) | YES | | NULL | |
+| DOB | date | YES | | NULL | |
+| SGPA | float(3,1) | YES | | NULL | |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+mysql> alter table stud add Address varchar(40);
+Query OK, 0 rows affected (0.40 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> desc stud;
++---------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| Rno | int | YES | | NULL | |
+
+| Name | varchar(30) | YES | | NULL | |
+| DOB | date | YES | | NULL | |
+| SGPA | float(3,1) | YES | | NULL | |
+| Address | varchar(40) | YES | | NULL | |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+mysql> alter table stud add Email varchar(20) after Name;
+Query OK, 0 rows affected (0.50 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> desc stud;
++---------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| Rno | int | YES | | NULL | |
+| Name | varchar(30) | YES | | NULL | |
+| Email | varchar(20) | YES | | NULL | |
+| DOB | date | YES | | NULL | |
+| SGPA | float(3,1) | YES | | NULL | |
+| Address | varchar(40) | YES | | NULL | |
++---------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+mysql> alter table stud add Blood_Group char(3) first;
+Query OK, 0 rows affected (0.51 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> desc stud;
++-------------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Blood_Group | char(3) | YES | | NULL | |
+| Rno | int | YES | | NULL | |
+| Name | varchar(30) | YES | | NULL | |
+| Email | varchar(20) | YES | | NULL | |
+| DOB | date | YES | | NULL | |
+| SGPA | float(3,1) | YES | | NULL | |
+| Address | varchar(40) | YES | | NULL | |
++-------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+mysql> alter table stud modify Address varchar(60);
+Query OK, 0 rows affected (0.22 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> desc stud;
++-------------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Blood_Group | char(3) | YES | | NULL | |
+| Rno | int | YES | | NULL | |
+| Name | varchar(30) | YES | | NULL | |
+| Email | varchar(20) | YES | | NULL | |
+| DOB | date | YES | | NULL | |
+| SGPA | float(3,1) | YES | | NULL | |
+| Address | varchar(60) | YES | | NULL | |
+
++-------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+mysql> alter table stud modify Blood_Group varchar(3);
+Query OK, 0 rows affected (1.20 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> desc stud;
++-------------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| Blood_Group | varchar(3) | YES | | NULL | |
+| Rno | int | YES | | NULL | |
+| Name | varchar(30) | YES | | NULL | |
+| Email | varchar(20) | YES | | NULL | |
+| DOB | date | YES | | NULL | |
+| SGPA | float(3,1) | YES | | NULL | |
+| Address | varchar(60) | YES | | NULL | |
++-------------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+mysql> alter table stud drop column Blood_Group;
+Query OK, 0 rows affected (0.34 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> desc stud;
++---------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| Rno | int | YES | | NULL | |
+| Name | varchar(30) | YES | | NULL | |
+| Email | varchar(20) | YES | | NULL | |
+| DOB | date | YES | | NULL | |
+| SGPA | float(3,1) | YES | | NULL | |
+| Address | varchar(60) | YES | | NULL | |
++---------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+mysql> show tables;
++-----------------+
+| Tables_in_TECSD |
++-----------------+
+| stud |
++-----------------+
+1 row in set (0.00 sec)
+mysql> alter table stud rename to Stud1;
+Query OK, 0 rows affected (0.34 sec)
+mysql> show tables;
++-----------------+
+| Tables_in_TECSD |
++-----------------+
+| Stud1 |
++-----------------+
+1 row in set (0.01 sec)
+
+mysql> desc stud1;
+ERROR 1146 (42S02): Table 'TECSD.stud1' doesn't exist
+mysql> desc Stud1;
++---------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| Rno | int | YES | | NULL | |
+| Name | varchar(30) | YES | | NULL | |
+| Email | varchar(20) | YES | | NULL | |
+| DOB | date | YES | | NULL | |
+| SGPA | float(3,1) | YES | | NULL | |
+| Address | varchar(60) | YES | | NULL | |
++---------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+mysql> alter table Stud1 change Rno Roll_no int(3);
+Query OK, 0 rows affected, 1 warning (0.35 sec)
+Records: 0 Duplicates: 0 Warnings: 1
+mysql> desc Stud1;
++---------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| Roll_no | int | YES | | NULL | |
+| Name | varchar(30) | YES | | NULL | |
+| Email | varchar(20) | YES | | NULL | |
+| DOB | date | YES | | NULL | |
+| SGPA | float(3,1) | YES | | NULL | |
+| Address | varchar(60) | YES | | NULL | |
++---------+-------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+mysql> select * from Stud1;
+Empty set (0.00 sec)
+mysql> insert into Stud1 values(1,'kaavya','kavya@gmail.com','2023-08-16',7.6,'Ahmednagar');
+Query OK, 1 row affected (0.14 sec)
+mysql> select * from Stud1;
++---------+--------+-----------------+------------+------+------------+
+| Roll_no | Name | Email | DOB | SGPA | Address |
++---------+--------+-----------------+------------+------+------------+
+| 1 | kaavya | kavya@gmail.com | 2023-08-16 | 7.6 | Ahmednagar |
++---------+--------+-----------------+------------+------+------------+
+1 row in set (0.00 sec)
+mysql> insert into Stud1 values(2,'Siya','Siya@gmail.com','2022-08-23',8.6,'Pune');
+Query OK, 1 row affected (0.14 sec)
+mysql> select * from Stud1;
++---------+--------+-----------------+------------+------+------------+
+| Roll_no | Name | Email | DOB | SGPA | Address |
++---------+--------+-----------------+------------+------+------------+
+| 1 | kaavya | kavya@gmail.com | 2023-08-16 | 7.6 | Ahmednagar |
+| 2 | Siya | Siya@gmail.com | 2022-08-23 | 8.6 | Pune |
++---------+--------+-----------------+------------+------+------------+
+2 rows in set (0.01 sec)
+
+mysql> truncate table Stud1;
+Query OK, 0 rows affected (0.90 sec)
+mysql> select * from Stud1;
+Empty set (0.00 sec)
+mysql> desc Stud1;
++---------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| Roll_no | int | YES | | NULL | |
+| Name | varchar(30) | YES | | NULL | |
+| Email | varchar(20) | YES | | NULL | |
+| DOB | date | YES | | NULL | |
+| SGPA | float(3,1) | YES | | NULL | |
+| Address | varchar(60) | YES | | NULL | |
++---------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+mysql> drop table Stud1;
+Query OK, 0 rows affected (0.33 sec)
+mysql> desc Stud1;
+ERROR 1146 (42S02): Table 'TECSD.Stud1' doesn't exist
+mysql> show tables;
+Empty set (0.01 sec)
+mysql>
