@@ -1,0 +1,52 @@
+mysql> use study_plsql;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+Database changed
+mysql> select * from stud;
++------+--------+-------+
+| Rno | Name | Marks |
++------+--------+-------+
+| 1 | Amit | 88 |
+| 2 | Shreya | 70 |
+| 3 | Reena | 56 |
+| 4 | Jivan | 34 |
++------+--------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create function Fgrade2(rno1 int) returns varchar(20)
+-> Deterministic
+-> Begin
+-> Declare grade varchar(20);
+-> Declare mark1 int;
+-> select marks into mark1 from stud where rno=rno1;
+-> If(mark1 > 75) then
+-> set grade='Distinction';
+-> ElseIf (mark1>=60 and mark1<75) then
+-> set grade='First Class';
+-> ElseIf (mark1 <60 and mark1>=40) then
+-> set grade= 'Pass Class';
+-> else
+-> set grade='Fail';
+-> end if;
+-> return grade;
+-> end;
+-> //
+Query OK, 0 rows affected (0.03 sec)
+mysql> select * from stud//
+
++------+--------+-------+
+| Rno | Name | Marks |
++------+--------+-------+
+| 1 | Amit | 88 |
+| 2 | Shreya | 70 |
+| 3 | Reena | 56 |
+| 4 | Jivan | 34 |
++------+--------+-------+
+4 rows in set (0.00 sec)
+mysql> select Fgrade2(4)//
++------------+
+| Fgrade2(4) |
++------------+
+| Fail |
++------------+
+1 row in set (0.00 sec)
