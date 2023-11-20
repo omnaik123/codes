@@ -1,0 +1,634 @@
+***********************************1. STUDY INDEX**************************
+
+mysql> create database assignment_2;
+Query OK, 1 row affected (0.02 sec)
+mysql> use assignment_2;
+Database changed
+mysql> create table stud(rno int(3), name varchar(20));
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+mysql> desc stud;
++-------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| rno | int | YES | | NULL | |
+| name | varchar(20) | YES | | NULL | |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+mysql> create index n1 on stud(rno);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> desc stud;
++-------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| rno | int | YES | MUL | NULL | |
+| name | varchar(20) | YES | | NULL | |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+mysql> show index from stud;
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+-----
+-------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part |
+Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+-----
+-------+---------+---------------+---------+------------+
+| stud | 1 | n1 | 1 | rno | A | 0 | NULL | NULL | YES | BTREE |
+| | YES | NULL |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+-----
+-------+---------+---------------+---------+------------+
+1 row in set (0.02 sec)
+mysql> create index n2 on stud(name);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> desc stud;
++-------+-------------+------+-----+---------+-------+
+
+| Field | Type | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| rno | int | YES | MUL | NULL | |
+| name | varchar(20) | YES | MUL | NULL | |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+mysql> show index from stud;
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+-----
+-------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part |
+Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+-----
+-------+---------+---------------+---------+------------+
+| stud | 1 | n1 | 1 | rno | A | 0 | NULL | NULL | YES | BTREE |
+| | YES | NULL |
+| stud | 1 | n2 | 1 | name | A | 0 | NULL | NULL | YES | BTREE
+| | | YES | NULL |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+-----
+-------+---------+---------------+---------+------------+
+2 rows in set (0.02 sec)
+mysql> insert into stud values(1,'abc'),(2,'pqr');
+Query OK, 2 rows affected (0.02 sec)
+Records: 2 Duplicates: 0 Warnings: 0
+mysql> show index from stud;
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+-----
+-------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part |
+Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+-----
+-------+---------+---------------+---------+------------+
+| stud | 1 | n1 | 1 | rno | A | 0 | NULL | NULL | YES | BTREE |
+| | YES | NULL |
+| stud | 1 | n2 | 1 | name | A | 0 | NULL | NULL | YES | BTREE
+| | | YES | NULL |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+-----
+-------+---------+---------------+---------+------------+
+2 rows in set (0.00 sec)
+mysql> insert into stud(rno)values (3)(4);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your
+MySQL server version for the right syntax to use near '(4)' at line 1
+mysql> insert into stud(rno)values (3),(4);
+Query OK, 2 rows affected (0.02 sec)
+Records: 2 Duplicates: 0 Warnings: 0
+mysql> show index from stud;
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+-----
+-------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part |
+Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+-----
+-------+---------+---------------+---------+------------+
+| stud | 1 | n1 | 1 | rno | A | 0 | NULL | NULL | YES | BTREE |
+| | YES | NULL |
+
+| stud | 1 | n2 | 1 | name | A | 0 | NULL | NULL | YES | BTREE
+| | | YES | NULL |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+-----
+-------+---------+---------------+---------+------------+
+2 rows in set (0.00 sec)
+mysql> alter table stud modify rno int(3) not null;
+Query OK, 0 rows affected, 1 warning (0.07 sec)
+Records: 0 Duplicates: 0 Warnings: 1
+mysql> desc stud;
++-------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| rno | int | NO | MUL | NULL | |
+| name | varchar(20) | YES | MUL | NULL | |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+mysql> show index from stud;
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+-----
+-------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part |
+Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+-----
+-------+---------+---------------+---------+------------+
+| stud | 1 | n1 | 1 | rno | A | 0 | NULL | NULL | | BTREE |
+| | YES | NULL |
+| stud | 1 | n2 | 1 | name | A | 0 | NULL | NULL | YES | BTREE
+| | | YES | NULL |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+-----
+-------+---------+---------------+---------+------------+
+2 rows in set (0.01 sec)
+mysql> alter table stud drop index n2;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> desc stud;
++-------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| rno | int | NO | MUL | NULL | |
+| name | varchar(20) | YES | | NULL | |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+****************************STUDY VIEW************************************
+mysql> use Prachi;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+Database changed
+mysql> create table account(ano int(3), name varchar(20), balance int);
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+
+mysql> insert into account values(101,'aa',2000),(102,'bb',50000);
+Query OK, 2 rows affected (0.02 sec)
+Records: 2 Duplicates: 0 Warnings: 0
+mysql> select * form account;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your
+MySQL server version for the right syntax to use near 'form account' at line 1
+mysql> select * from account;
++------+------+---------+
+| ano | name | balance |
++------+------+---------+
+| 101 | aa | 2000 |
+| 102 | bb | 50000 |
++------+------+---------+
+2 rows in set (0.00 sec)
+mysql> create view v1 as select ano, name from account;
+Query OK, 0 rows affected (0.03 sec)
+mysql> select * from account;
++------+------+---------+
+| ano | name | balance |
++------+------+---------+
+| 101 | aa | 2000 |
+| 102 | bb | 50000 |
++------+------+---------+
+2 rows in set (0.00 sec)
+mysql> select * from v1;
++------+------+
+| ano | name |
++------+------+
+| 101 | aa |
+| 102 | bb |
++------+------+
+2 rows in set (0.00 sec)
+mysql> insert into v1 values (103,'cc',5000);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> drop view v1;
+Query OK, 0 rows affected (0.03 sec)
+mysql> select * from v1;
+ERROR 1146 (42S02): Table 'Prachi.v1' doesn't exist
+*******************************STUDY SEQUENCE*************************
+Database changed
+mysql> create table cust(cid int(3) primary key auto_increment, name varchar(20));
+ERROR 1050 (42S01): Table 'cust' already exists
+mysql> drop table cust;
+Query OK, 0 rows affected (0.03 sec)
+mysql> create table cust(cid int(3) primary key auto_increment, name varchar(20));
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+
+mysql> desc cust;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+----------------+
+| cid | int | NO | PRI | NULL | auto_increment |
+| name | varchar(20) | YES | | NULL | |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+mysql> insert into cust (name)values('aa'),('bb'),('cc');
+Query OK, 3 rows affected (0.02 sec)
+Records: 3 Duplicates: 0 Warnings: 0
+mysql> select * from cust;
++-----+------+
+| cid | name |
++-----+------+
+| 1 | aa |
+| 2 | bb |
+| 3 | cc |
++-----+------+
+3 rows in set (0.00 sec)
+mysql> insert into cust values(55,'dd');
+Query OK, 1 row affected (0.02 sec)
+mysql> select * from cust;
++-----+------+
+| cid | name |
++-----+------+
+| 1 | aa |
+| 2 | bb |
+| 3 | cc |
+| 55 | dd |
++-----+------+
+4 rows in set (0.00 sec)
+mysql> insert into cust(name)values ('aa'),('bb'),('cc');
+Query OK, 3 rows affected (0.02 sec)
+Records: 3 Duplicates: 0 Warnings: 0
+mysql> select * from cust;
++-----+------+
+| cid | name |
++-----+------+
+| 1 | aa |
+| 2 | bb |
+| 3 | cc |
+| 55 | dd |
+| 56 | aa |
+| 57 | bb |
+| 58 | cc |
++-----+------+
+7 rows in set (0.00 sec)
+mysql> delete from cust where cid=58;
+
+Query OK, 1 row affected (0.02 sec)
+mysql> select * from cust;
++-----+------+
+| cid | name |
++-----+------+
+| 1 | aa |
+| 2 | bb |
+| 3 | cc |
+| 55 | dd |
+| 56 | aa |
+| 57 | bb |
++-----+------+
+6 rows in set (0.00 sec)
+mysql> insert into cust(name) values('ee');
+Query OK, 1 row affected (0.02 sec)
+mysql> select * from cust;
++-----+------+
+| cid | name |
++-----+------+
+| 1 | aa |
+| 2 | bb |
+| 3 | cc |
+| 55 | dd |
+| 56 | aa |
+| 57 | bb |
+| 59 | ee |
++-----+------+
+7 rows in set (0.00 sec)
+mysql> delete from cust;
+Query OK, 7 rows affected (0.03 sec)
+mysql> select * from cust;
+Empty set (0.01 sec)
+mysql> alter table cust auto_increment=1001;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> insert into cust(name)values('aa')('bb')('cc');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your
+MySQL server version for the right syntax to use near '('bb')('cc')' at line 1
+mysql> insert into cust(name)values('aa'),('bb'),('cc');
+Query OK, 3 rows affected (0.03 sec)
+Records: 3 Duplicates: 0 Warnings: 0
+mysql> select * from cust;
++------+------+
+| cid | name |
++------+------+
+| 1001 | aa |
+| 1002 | bb |
+| 1003 | cc |
++------+------+
+
+3 rows in set (0.00 sec)
+mysql> alter table cust modify cid int(3);
+Query OK, 3 rows affected, 1 warning (0.06 sec)
+Records: 3 Duplicates: 0 Warnings: 1
+mysql> desc cust;
++-------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| cid | int | NO | PRI | NULL | |
+| name | varchar(20) | YES | | NULL | |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+mysql> alter table cust drop primary key;
+Query OK, 3 rows affected (0.05 sec)
+Records: 3 Duplicates: 0 Warnings: 0
+mysql> desc cust;
++-------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| cid | int | NO | | NULL | |
+| name | varchar(20) | YES | | NULL | |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+********************************************************************************
+
+Practice Problem No 1
+
+A. create one table employee with fields:
+1. eno-primary key and apply sequence starts with 101
+2. name- not null
+3. Joind date
+4. Address- default ‘nashik’
+5. Post
+6. Salary- check>5000
+Apply Query:
+a. To find the employee name whose salary is grater than or equal to 6000.
+b. Find employee name whose salary is 3000.
+c. Find name and Join Date from table having salary<5000
+B. Create view on employee table to show only Eployee name, its post and salary
+C. Create index on Ename field of employee table.
+D. Create Another table emp_project with field
+1. eno-foriegn key
+2. project name
+3. LOC
+
+********************************************************************************
+
+(A)
+mysql> create database Assignment2_Problem1;
+Query OK, 1 row affected (0.01 sec)
+mysql> use Assignment2_Problem1;
+Database changed
+mysql> create table Employee(eno int(3) primary key auto_increment, name varchar(20) not null, Jdate
+Date, post varchar(20), sal int(6) check (sal>5000), address varchar(30) default 'Nashik');
+Query OK, 0 rows affected, 2 warnings (0.04 sec)
+mysql> desc Employee;
++---------+-------------+------+-----+---------+----------------+
+| Field | Type | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+----------------+
+| eno | int | NO | PRI | NULL | auto_increment |
+| name | varchar(20) | NO | | NULL | |
+| Jdate | date | YES | | NULL | |
+| post | varchar(20) | YES | | NULL | |
+| sal | int | YES | | NULL | |
+| address | varchar(30) | YES | | Nashik | |
++---------+-------------+------+-----+---------+----------------+
+6 rows in set (0.01 sec)
+mysql> insert into Employee(name, Jdate, post, sal) values ('aa','2023-12-11','Analytics',6000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into Employee(name, Jdate, post, sal) values ('bb','2022-11-11','Manager',60000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into Employee(name, Jdate, post, sal) values ('bb','2002-05-24','Clerk',10000);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into Employee(name, Jdate, post, sal) values ('cc','2018-05-04','Peon',6000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into Employee(name, Jdate, post, sal) values ('dd','2015-07-28','Peon',9000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into Employee(name, Jdate, post, sal) values ('ee','2023-07-28','Assistant',15000);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into Employee(name, Jdate, post, sal) values ('ee','2023-07-28','Assistant',15000);
+Query OK, 1 row affected (0.03 sec)
+mysql> select * from Employee;
++-----+------+------------+-----------+-------+---------+
+| eno | name | Jdate | post | sal | address |
++-----+------+------------+-----------+-------+---------+
+| 1 | aa | 2023-12-11 | Analytics | 6000 | Nashik |
+| 2 | bb | 2022-11-11 | Manager | 60000 | Nashik |
+| 3 | bb | 2002-05-24 | Clerk | 10000 | Nashik |
+
+| 4 | cc | 2018-05-04 | Peon | 6000 | Nashik |
+| 5 | dd | 2015-07-28 | Peon | 9000 | Nashik |
+| 6 | ee | 2023-07-28 | Assistant | 15000 | Nashik |
+| 7 | ee | 2023-07-28 | Assistant | 15000 | Nashik |
++-----+------+------------+-----------+-------+---------+
+7 rows in set (0.00 sec)
+
+mysql> alter table Employee auto_increment=1001;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> select * from Employee;
++-----+------+------------+-----------+-------+---------+
+| eno | name | Jdate | post | sal | address |
++-----+------+------------+-----------+-------+---------+
+| 1 | aa | 2023-12-11 | Analytics | 6000 | Nashik |
+| 2 | bb | 2022-11-11 | Manager | 60000 | Nashik |
+| 3 | bb | 2002-05-24 | Clerk | 10000 | Nashik |
+| 4 | cc | 2018-05-04 | Peon | 6000 | Nashik |
+| 5 | dd | 2015-07-28 | Peon | 9000 | Nashik |
+| 6 | ee | 2023-07-28 | Assistant | 15000 | Nashik |
+| 7 | ee | 2023-07-28 | Assistant | 15000 | Nashik |
++-----+------+------------+-----------+-------+---------+
+7 rows in set (0.00 sec)
+mysql> delete from emp;
+ERROR 1146 (42S02): Table 'Assignment2_Problem1.emp' doesn't exist
+mysql> delete from Employee;
+Query OK, 7 rows affected (0.03 sec)
+mysql> select * from Employee;
+Empty set (0.00 sec)
+mysql> alter table Employee auto_increment=1001;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> insert into Employee(name, Jdate, post, sal) values ('aa','2023-12-11','Analytics',6000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into Employee(name, Jdate, post, sal) values ('bb','2022-11-11','Manager',60000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into Employee(name, Jdate, post, sal) values ('bb','2002-05-24','Clerk',10000);
+Query OK, 1 row affected (0.03 sec)
+mysql> insert into Employee(name, Jdate, post, sal) values ('cc','2018-05-04','Peon',6000);
+Query OK, 1 row affected (0.02 sec)
+mysql> insert into Employee(name, Jdate, post, sal) values ('dd','2015-07-28','Peon',9000);
+Query OK, 1 row affected (0.01 sec)
+mysql> insert into Employee(name, Jdate, post, sal) values ('ee','2023-07-28','Assistant',15000);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select *from Employee;
++------+------+------------+-----------+-------+---------+
+| eno | name | Jdate | post | sal | address |
++------+------+------------+-----------+-------+---------+
+| 1001 | aa | 2023-12-11 | Analytics | 6000 | Nashik |
+| 1002 | bb | 2022-11-11 | Manager | 60000 | Nashik |
+| 1003 | bb | 2002-05-24 | Clerk | 10000 | Nashik |
+| 1004 | cc | 2018-05-04 | Peon | 6000 | Nashik |
+| 1005 | dd | 2015-07-28 | Peon | 9000 | Nashik |
+| 1006 | ee | 2023-07-28 | Assistant | 15000 | Nashik |
++------+------+------------+-----------+-------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select name from Employee where sal>=6000;
++------+
+| name |
++------+
+| aa |
+| bb |
+| bb |
+| cc |
+| dd |
+| ee |
++------+
+6 rows in set (0.00 sec)
+
+mysql> select name from Employee where sal=15000;
++------+
+| name |
++------+
+| ee |
++------+
+1 row in set (0.00 sec)
+mysql> select name from Employee where sal<=9000;
++------+
+| name |
++------+
+| aa |
+| cc |
+| dd |
++------+
+3 rows in set (0.00 sec)
+mysql> select name,Jdate from Employee where sal>=9000;
++------+------------+
+| name | Jdate |
++------+------------+
+| bb | 2022-11-11 |
+| bb | 2002-05-24 |
+| dd | 2015-07-28 |
+| ee | 2023-07-28 |
++------+------------+
+4 rows in set (0.00 sec)
+
+*************************************************************************
+
+(B)
+
+mysql> create view v1 as select name,post,sal from Employee;
+Query OK, 0 rows affected (0.02 sec)
+mysql> select * from v1;
++------+-----------+-------+
+| name | post | sal |
++------+-----------+-------+
+| aa | Analytics | 6000 |
+| bb | Manager | 60000 |
+| bb | Clerk | 10000 |
+| cc | Peon | 6000 |
+| dd | Peon | 9000 |
+| ee | Assistant | 15000 |
++------+-----------+-------+
+6 rows in set (0.00 sec)
+**************************************************************************
+
+(C)
+mysql> create index a1 on Employee(name);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> desc Employee;
++---------+-------------+------+-----+---------+----------------+
+| Field | Type | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+----------------+
+| eno | int | NO | PRI | NULL | auto_increment |
+| name | varchar(20) | NO | MUL | NULL | |
+| Jdate | date | YES | | NULL | |
+| post | varchar(20) | YES | | NULL | |
+| sal | int | YES | | NULL | |
+| address | varchar(30) | YES | | Nashik | |
++---------+-------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+mysql> show index from Employee;
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+--
+----------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part |
+Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+--
+----------+---------+---------------+---------+------------+
+| Employee | 0 | PRIMARY | 1 | eno | A | 6 | NULL | NULL | |
+BTREE | | | YES | NULL |
+| Employee | 1 | a1 | 1 | name | A | 5 | NULL | NULL | | BTREE
+| | | YES | NULL |
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+--
+----------+---------+---------------+---------+------------+
+2 rows in set (0.02 sec)
+*****************************************************************************
+
+(D)
+
+Create another table emp_proj with field:
+1. eno- foreign key
+
+2. project_name
+3. LOC
+Perform Query:
+Delete from emp name whose eno is 2.
+mysql> use Assignment_2_Prob2;
+Database changed
+mysql> create table emp(eno int(3) primary key, name varchar(20), Jdate Date, Post varchar(10), Address
+varchar(10) default 'Nashik');
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+mysql> create table emp_proj(eno int(3), proj_name varchar(20), LOC varchar(10));
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+
+mysql> alter table emp_proj add foreign key f1(eno) references emp(eno) on delete cascade on update
+cascade;
+Query OK, 0 rows affected (0.08 sec)
+Records: 0 Duplicates: 0 Warnings: 0
+mysql> desc emp;
++---------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| eno | int | NO | PRI | NULL | |
+| name | varchar(20) | YES | | NULL | |
+| Jdate | date | YES | | NULL | |
+| Post | varchar(10) | YES | | NULL | |
+| Address | varchar(10) | YES | | Nashik | |
++---------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+mysql> desc emp_proj;
++-----------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| eno | int | YES | MUL | NULL | |
+| proj_name | varchar(20) | YES | | NULL | |
+| LOC | varchar(10) | YES | | NULL | |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into emp values(1,'aa','2023-12-11','manager','nashik'),(2,'bb','2022-11-11','peon','nashik'),
+(3,'cc','2021-11-09','clerk','nashik');
+Query OK, 3 rows affected (0.03 sec)
+Records: 3 Duplicates: 0 Warnings: 0
+
+mysql> insert into emp_proj values(1,'AILAB','A-block'),(2,'Testing-LAB','B-block'),(3,'databaseLab','C-
+block');
+
+Query OK, 3 rows affected (0.03 sec)
+Records: 3 Duplicates: 0 Warnings: 0
+mysql> select * from emp;
+
++-----+------+------------+---------+---------+
+| eno | name | Jdate | Post | Address |
++-----+------+------------+---------+---------+
+| 1 | aa | 2023-12-11 | manager | nashik |
+| 2 | bb | 2022-11-11 | peon | nashik |
+| 3 | cc | 2021-11-09 | clerk | nashik |
++-----+------+------------+---------+---------+
+3 rows in set (0.00 sec)
+mysql> select * from emp_proj;
++------+-------------+---------+
+| eno | proj_name | LOC |
++------+-------------+---------+
+| 1 | AILAB | A-block |
+| 2 | Testing-LAB | B-block |
+| 3 | databaseLab | C-block |
++------+-------------+---------+
+3 rows in set (0.00 sec)
+mysql> delete from emp_proj where eno=3;
+Query OK, 1 row affected (0.02 sec)
+mysql> select * from emp_proj;
++------+-------------+---------+
+| eno | proj_name | LOC |
++------+-------------+---------+
+| 1 | AILAB | A-block |
+| 2 | Testing-LAB | B-block |
++------+-------------+---------+
+2 rows in set (0.00 sec)
+mysql> select * from emp;
++-----+------+------------+---------+---------+
+| eno | name | Jdate | Post | Address |
++-----+------+------------+---------+---------+
+| 1 | aa | 2023-12-11 | manager | nashik |
+| 2 | bb | 2022-11-11 | peon | nashik |
+| 3 | cc | 2021-11-09 | clerk | nashik |
++-----+------+------------+---------+---------+
+3 rows in set (0.00 sec)
+mysql> delete from emp where eno=1;
+Query OK, 1 row affected (0.02 sec)
+mysql> select * from emp_proj;
++------+-------------+---------+
+| eno | proj_name | LOC |
++------+-------------+---------+
+| 2 | Testing-LAB | B-block |
++------+-------------+---------+
+1 row in set (0.00 sec)
