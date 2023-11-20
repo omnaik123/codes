@@ -1,0 +1,225 @@
+Example No 1:
+****************************************************************************
+1. UPDATE
+mysql> create database study_trigger;
+Query OK, 1 row affected (0.03 sec)
+mysql> use study_trigger;
+Database changed
+mysql> create table emp(eno int(3), ename varchar(10), salary int(5));
+Query OK, 0 rows affected, 2 warnings (0.06 sec)
+mysql> create table audit(action varchar(10), date_of_action datetime, eno int(3), old_sal int(5), new_sal int(5));
+Query OK, 0 rows affected, 3 warnings (0.06
+sec)
+mysql> insert into emp values(101,'aa',5000),
+(102,'bb',6000);
+Query OK, 2 rows affected (0.04
+sec)
+Records: 2 Duplicates: 0 Warnings:
+0
+mysql> select * from emp;
++------+-------+--------+
+| eno | ename | salary |
++------+-------+--------+
+| 101 | aa | 5000 |
+| 102 | bb | 6000 |
++------+-------+--------+
+2 rows in set (0.00 sec)
+mysql> select * from audit;
+Empty set (0.00 sec)
+mysql> delimiter //
+mysql> create trigger t1 after update on emp for each row
+-> begin
+-> insert into audit values('update', now(), old.eno, old.salary, new.salary);
+-> end;
+-> //
+Query OK, 0 rows affected (0.03 sec)
+mysql> select * from emp//
++------+-------+--------+
+| eno | ename | salary |
++------+-------+--------+
+| 101 | aa | 5000 |
+| 102 | bb | 6000 |
++------+-------+--------+
+2 rows in set (0.00 sec)
+mysql> select * from audit//
+Empty set (0.00 sec)
+mysql> update emp set salary=12000 where eno=101//
+Query OK, 1 row affected (0.02 sec)
+
+Rows matched: 1 Changed: 1 Warnings: 0
+mysql> select * from audit//
++--------+---------------------+------+---------+---------+
+| action | date_of_action | eno | old_sal | new_sal |
++--------+---------------------+------+---------+---------+
+| update | 2023-10-04 00:12:33 | 101 | 5000 | 12000 |
++--------+---------------------+------+---------+---------+
+1 row in set (0.00 sec)
+*******************************************************************************
+Example :
+Create a trigger for the given event
+1.UPDATE
+2.DELETE
+3.INSERT
+
+mysql> create database study_trigger2;
+Query OK, 1 row affected (0.02 sec)
+mysql> use study_trigger2;
+Database changed
+mysql> create table emp(eno int(3), ename varchar(20), salary int(5));
+Query OK, 0 rows affected, 2 warnings (0.04 sec)
+mysql> create table audit(action varchar(10), date_of_action datetime, eno int(3), old_sal int(5), new_sal int(5));
+Query OK, 0 rows affected, 3 warnings (0.04 sec)
+mysql> insert into emp values(101,'aa',5000),(102,'bb',6000);
+Query OK, 2 rows affected (0.03 sec)
+Records: 2 Duplicates: 0 Warnings: 0
+mysql> select * from emp;
++------+-------+--------+
+| eno | ename | salary |
++------+-------+--------+
+| 101 | aa | 5000 |
+| 102 | bb | 6000 |
++------+-------+--------+
+2 rows in set (0.00 sec)
+mysql> select * from audit;
+Empty set (0.00 sec)
+1. UPDATE
+mysql> delimiter //
+mysql> create trigger t1 after update on emp for each row
+-> begin
+-> insert into audit values('update', now(), old.eno, old.salary,new.salary);
+-> end;
+-> //
+Query OK, 0 rows affected (0.03 sec)
+mysql> select * from emp//
++------+-------+--------+
+| eno | ename | salary |
++------+-------+--------+
+| 101 | aa | 5000 |
+| 102 | bb | 6000 |
++------+-------+--------+
+
+2 rows in set (0.00 sec)
+mysql> select * from audit//
+Empty set (0.00 sec)
+mysql> update emp set salary=12000 where eno=101//
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1 Changed: 1 Warnings: 0
+mysql> select * from emp//
++------+-------+--------+
+| eno | ename | salary |
++------+-------+--------+
+| 101 | aa | 12000 |
+| 102 | bb | 6000 |
++------+-------+--------+
+2 rows in set (0.00 sec)
+mysql> select * from audit//
++--------+---------------------+------+---------+---------+
+| action | date_of_action | eno | old_sal | new_sal |
++--------+---------------------+------+---------+---------+
+| update | 2023-10-05 00:19:24 | 101 | 5000 | 12000 |
++--------+---------------------+------+---------+---------+
+1 row in set (0.00 sec)
+mysql> update emp set salary=salary+2000 where eno=102//
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1 Changed: 1 Warnings: 0
+mysql> select * from emp//
++------+-------+--------+
+| eno | ename | salary |
++------+-------+--------+
+| 101 | aa | 12000 |
+| 102 | bb | 8000 |
++------+-------+--------+
+2 rows in set (0.01 sec)
+mysql> select * from audit//
++--------+---------------------+------+---------+---------+
+| action | date_of_action | eno | old_sal | new_sal |
++--------+---------------------+------+---------+---------+
+| update | 2023-10-05 00:19:24 | 101 | 5000 | 12000 |
+| update | 2023-10-05 00:20:57 | 102 | 6000 | 8000 |
++--------+---------------------+------+---------+---------+
+2 rows in set (0.01 sec)
+mysql> delete from emp where eno=102//
+Query OK, 1 row affected (0.02 sec)
+mysql> select * from emp//
++------+-------+--------+
+| eno | ename | salary |
++------+-------+--------+
+| 101 | aa | 12000 |
++------+-------+--------+
+1 row in set (0.00 sec)
+mysql> select * from audit//
+
++--------+---------------------+------+---------+---------+
+| action | date_of_action | eno | old_sal | new_sal |
++--------+---------------------+------+---------+---------+
+| update | 2023-10-05 00:19:24 | 101 | 5000 | 12000 |
+| update | 2023-10-05 00:20:57 | 102 | 6000 | 8000 |
++--------+---------------------+------+---------+---------+
+2 rows in set (0.00 sec)
+2. DELETE
+mysql> delimiter //
+mysql> create trigger t2 after delete on emp for each row
+-> begin
+-> insert into audit values('delete', now(), old.eno, old.salary, null);
+-> end;
+-> //
+Query OK, 0 rows affected (0.03 sec)
+mysql> select * from emp//
++------+-------+--------+
+| eno | ename | salary |
++------+-------+--------+
+| 101 | aa | 12000 |
++------+-------+--------+
+1 row in set (0.00 sec)
+mysql> select * from audit//
++--------+---------------------+------+---------+---------+
+| action | date_of_action | eno | old_sal | new_sal |
++--------+---------------------+------+---------+---------+
+| update | 2023-10-05 00:19:24 | 101 | 5000 | 12000 |
+| update | 2023-10-05 00:20:57 | 102 | 6000 | 8000 |
++--------+---------------------+------+---------+---------+
+2 rows in set (0.00 sec)
+mysql> delete from emp where eno=101;
+-> //
+Query OK, 1 row affected (0.03 sec)
+mysql> select * from emp//
+Empty set (0.00 sec)
+mysql> select * from audit//
++--------+---------------------+------+---------+---------+
+| action | date_of_action | eno | old_sal | new_sal |
++--------+---------------------+------+---------+---------+
+| update | 2023-10-05 00:19:24 | 101 | 5000 | 12000 |
+| update | 2023-10-05 00:20:57 | 102 | 6000 | 8000 |
+| delete | 2023-10-05 00:32:54 | 101 | 12000 | NULL |
++--------+---------------------+------+---------+---------+
+3 rows in set (0.00 sec)
+3. INSERT
+mysql> delimiter //
+mysql> create trigger t3 before insert on emp for each row
+-> begin
+-> insert into audit values('insert', now(), new.eno, null, new.salary);
+-> end;
+-> //
+
+Query OK, 0 rows affected (0.03 sec)
+mysql> insert into emp values(104,'dd',7000)
+-> //
+Query OK, 1 row affected (0.03 sec)
+mysql> select * from emp//
++------+-------+--------+
+| eno | ename | salary |
++------+-------+--------+
+| 104 | dd | 7000 |
++------+-------+--------+
+1 row in set (0.00 sec)
+mysql> select * from audit//
++--------+---------------------+------+---------+---------+
+| action | date_of_action | eno | old_sal | new_sal |
++--------+---------------------+------+---------+---------+
+| update | 2023-10-05 00:19:24 | 101 | 5000 | 12000 |
+| update | 2023-10-05 00:20:57 | 102 | 6000 | 8000 |
+| delete | 2023-10-05 00:32:54 | 101 | 12000 | NULL |
+| insert | 2023-10-05 01:31:16 | 104 | NULL | 7000 |
++--------+---------------------+------+---------+---------+
+4 rows in set (0.00 sec)
+mysql>
