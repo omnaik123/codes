@@ -1,0 +1,110 @@
+mysql> use study_joins;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+Database changed
+// Create table 1 i.e stud_info:
+mysql> create table stud_info(rno int(3) not null, name varchar(20), address varchar(20));
+Query OK, 0 rows affected, 1 warning (1.02 sec)
+// Create table 2 i.e stud_marks:
+mysql> create table stud_marks(rno int(3) not null, dbms int(3),toc int(3),iot int(3));
+Query OK, 0 rows affected, 4 warnings (0.64 sec)
+mysql> desc stud_info;
++---------+-------------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| rno | int | NO | | NULL | |
+| name | varchar(20) | YES | | NULL | |
+| address | varchar(20) | YES | | NULL | |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+mysql> desc stud_marks;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| rno | int | NO | | NULL | |
+| dbms | int | YES | | NULL | |
+| toc | int | YES | | NULL | |
+| iot | int | YES | | NULL | |
++-------+------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+// insert vales in both table:
+mysql> insert into stud_info values(1,'Abhay','Nagar'),(2,'Sarika','Nashik'),(3,'Riya','Pune'),
+(4,'Sachin','Mumbai');
+Query OK, 4 rows affected (0.09 sec)
+Records: 4 Duplicates: 0 Warnings: 0
+mysql> insert into stud_marks values(1,56,67,55),(2,56,77,55),(3,44,67,55),(5,66,78,55);
+Query OK, 4 rows affected (0.10 sec)
+Records: 4 Duplicates: 0 Warnings: 0
+mysql> select * from stud_info;
++-----+--------+---------+
+| rno | name | address |
++-----+--------+---------+
+| 1 | Abhay | Nagar |
+
+| 2 | Sarika | Nashik |
+| 3 | Riya | Pune |
+| 4 | Sachin | Mumbai |
++-----+--------+---------+
+4 rows in set (0.00 sec)
+mysql> select * from stud_marks;
++-----+------+------+------+
+| rno | dbms | toc | iot |
++-----+------+------+------+
+| 1 | 56 | 67 | 55 |
+| 2 | 56 | 77 | 55 |
+| 3 | 44 | 67 | 55 |
+| 5 | 66 | 78 | 55 |
++-----+------+------+------+
+4 rows in set (0.00 sec)
+1. Apply inner join
+1
+st Method
+
+mysql> select stud_info.rno,name,dbms,toc,iot from stud_info, stud_marks where
+stud_info.rno=stud_marks.rno;
++-----+--------+------+------+------+
+| rno | name | dbms | toc | iot |
++-----+--------+------+------+------+
+| 1 | Abhay | 56 | 67 | 55 |
+| 2 | Sarika | 56 | 77 | 55 |
+| 3 | Riya | 44 | 67 | 55 |
++-----+--------+------+------+------+
+3 rows in set (0.00 sec)
+2
+nd Method
+
+mysql> select stud_info.rno,name,dbms,toc,iot from stud_info inner join stud_marks on
+stud_info.rno=stud_marks.rno;
++-----+--------+------+------+------+
+| rno | name | dbms | toc | iot |
++-----+--------+------+------+------+
+| 1 | Abhay | 56 | 67 | 55 |
+| 2 | Sarika | 56 | 77 | 55 |
+| 3 | Riya | 44 | 67 | 55 |
++-----+--------+------+------+------+
+3 rows in set (0.00 sec)
+2. Apply left Join
+mysql> select stud_info.rno,name,dbms,toc,iot from stud_info left join stud_marks on
+stud_info.rno=stud_marks.rno;
++-----+--------+------+------+------+
+| rno | name | dbms | toc | iot |
++-----+--------+------+------+------+
+| 1 | Abhay | 56 | 67 | 55 |
+| 2 | Sarika | 56 | 77 | 55 |
+| 3 | Riya | 44 | 67 | 55 |
+| 4 | Sachin | NULL | NULL | NULL |
++-----+--------+------+------+------+
+4 rows in set (0.00 sec)
+
+5. Apply Right Join
+mysql> select stud_marks.rno,name,dbms,toc,iot from stud_info right join stud_marks on
+stud_info.rno=stud_marks.rno;
++-----+--------+------+------+------+
+| rno | name | dbms | toc | iot |
++-----+--------+------+------+------+
+| 1 | Abhay | 56 | 67 | 55 |
+| 2 | Sarika | 56 | 77 | 55 |
+| 3 | Riya | 44 | 67 | 55 |
+| 5 | NULL | 66 | 78 | 55 |
++-----+--------+------+------+------+
+4 rows in set (0.00 sec)
